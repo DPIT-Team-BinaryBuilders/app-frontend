@@ -40,6 +40,8 @@ dependencies:
   #location: ^4.4.0
   flutter_svg: ^1.1.0
   draggable_menu: ^2.0.2
+  geolocator: ^9.0.2
+  geocoding: ^2.0.4
 
 dev_dependencies:
   flutter_test:

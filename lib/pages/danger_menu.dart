@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:safetybuddy/constants.dart';
+import 'package:safetybuddy/pages/danger_info.dart';
+import 'package:geolocator/geolocator.dart';
 
-class DangerMenuContainer extends StatelessWidget {
+class DangerMenuContainer extends StatefulWidget {
+  @override
+  State<DangerMenuContainer> createState() => _DangerMenuContainerState();
+}
+
+class _DangerMenuContainerState extends State<DangerMenuContainer> {
   double screenWidth = getScreenWidth();
+
+  int groupValue = 1;
+
+  int selectValue = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +51,13 @@ class DangerMenuContainer extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (ctx) => DangerInfoForm(
+                                    type: 'Bad lights',
+                                  ));
+                        },
                         icon: SizedBox(
                           //width: 60.0,
                           //height: 60.0,
