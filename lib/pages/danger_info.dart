@@ -1,35 +1,35 @@
+import '/service/service.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
 class DangerInfoForm extends StatefulWidget {
   final String type;
 
-  DangerInfoForm({required this.type, super.key});
+  const DangerInfoForm({required this.type, super.key});
 
   @override
   State<DangerInfoForm> createState() => _DangerInfoFormState();
 }
 
 class _DangerInfoFormState extends State<DangerInfoForm> {
+  Service service = Service();
+
   final TextEditingController _description = TextEditingController();
   int _selectedValue = 0;
   late String dangerType;
   late DateTime _createdTime;
   double? _latitude;
   double? _longitude;
-  String _locationMessage = '';
+  String? _formatedTime;
 
-  void _getDangerInfo() async {
-    // Access the selected radio button value and the description text here
+  Future<void> _getDangerInfo() async {
     int selectedDangerLevel = _selectedValue;
     String description = _description.text;
     String type = widget.type;
     _createdTime = DateTime.now();
 
-    // Format the created time
-    String formattedTime = "${_createdTime.hour}:${_createdTime.minute}";
+    _formatedTime = "${_createdTime.hour}:${_createdTime.minute}";
 
-    // Fetch current location
     Position position = await _determinePosition();
     _latitude = position.latitude;
     _longitude = position.longitude;
@@ -38,11 +38,10 @@ class _DangerInfoFormState extends State<DangerInfoForm> {
     //_locationMessage = 'Latitude: $_latitude, Longitude: $_longitude';
     //});
 
-    // Print values to console for demonstration
     print('Danger Type: $type');
     print('Description: $description');
     print('Selected Danger Level: $selectedDangerLevel');
-    print('Time Created: $formattedTime');
+    print('Time Created: $_formatedTime');
     print('Location: Latitude: $_latitude, Longitude: $_longitude');
   }
 
@@ -98,7 +97,7 @@ class _DangerInfoFormState extends State<DangerInfoForm> {
           groupValue: _selectedValue,
           onChanged: _handleRadioValueChange,
         ),
-        Text('${value}'),
+        Text('$value'),
       ],
     );
   }
@@ -111,9 +110,23 @@ class _DangerInfoFormState extends State<DangerInfoForm> {
       actions: <Widget>[
         TextButton(
           child: const Text('Submit'),
-          onPressed: () {
-            _getDangerInfo();
-            Navigator.of(context).pop();
+          onPressed: () async {
+            await _getDangerInfo();
+            if (_formatedTime != null &&
+                _latitude != null &&
+                _longitude != null) {
+              service.saveDanger(
+                  widget.type,
+                  _description.text,
+                  _selectedValue.toString(),
+                  _formatedTime!,
+                  _latitude!,
+                  _longitude!);
+              Navigator.of(context).pop();
+            } else {
+              // Handle the case where any of these variables are null
+              print('Error: Location or time data is not available');
+            }
           },
         ),
       ],

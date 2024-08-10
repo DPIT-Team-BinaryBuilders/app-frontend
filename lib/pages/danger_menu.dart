@@ -54,7 +54,7 @@ class _DangerMenuContainerState extends State<DangerMenuContainer> {
                         onPressed: () {
                           showDialog(
                               context: context,
-                              builder: (ctx) => DangerInfoForm(
+                              builder: (ctx) => const DangerInfoForm(
                                     type: 'Bad lights',
                                   ));
                         },
@@ -66,7 +66,7 @@ class _DangerMenuContainerState extends State<DangerMenuContainer> {
                           ),
                         ),
                       ),
-                      Text('Bad lights'),
+                      const Text('Bad lights'),
                     ],
                   )),
                   Container(
@@ -83,7 +83,7 @@ class _DangerMenuContainerState extends State<DangerMenuContainer> {
                           ),
                         ),
                       ),
-                      Text('Stray dogs'),
+                      const Text('Stray dogs'),
                     ],
                   )),
                   Container(
@@ -100,7 +100,7 @@ class _DangerMenuContainerState extends State<DangerMenuContainer> {
                           ),
                         ),
                       ),
-                      Text('TEST'),
+                      const Text('TEST'),
                     ],
                   )),
                 ],
@@ -123,7 +123,7 @@ class _DangerMenuContainerState extends State<DangerMenuContainer> {
                           ),
                         ),
                       ),
-                      Text('DE ADUGAT'),
+                      const Text('DE ADUGAT'),
                     ],
                   )),
                   Container(
@@ -140,7 +140,7 @@ class _DangerMenuContainerState extends State<DangerMenuContainer> {
                           ),
                         ),
                       ),
-                      Text('++++'),
+                      const Text('++++'),
                     ],
                   )),
                   Container(
@@ -157,7 +157,7 @@ class _DangerMenuContainerState extends State<DangerMenuContainer> {
                           ),
                         ),
                       ),
-                      Text('DE ADAUGAT'),
+                      const Text('DE ADAUGAT'),
                     ],
                   )),
                 ],
@@ -174,8 +174,8 @@ class _DangerMenuContainerState extends State<DangerMenuContainer> {
             child: Container(
               height: 4,
               width: 100,
-              color: Color.fromRGBO(219, 219, 218, 1),
-              margin: EdgeInsets.only(top: 8),
+              color: const Color.fromRGBO(219, 219, 218, 1),
+              margin: const EdgeInsets.only(top: 8),
             ),
           ),
         ),
