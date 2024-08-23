@@ -1,4 +1,4 @@
-import '/service/service.dart';
+import '../service/danger_service.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -124,7 +124,6 @@ class _DangerInfoFormState extends State<DangerInfoForm> {
                   _longitude!);
               Navigator.of(context).pop();
             } else {
-              // Handle the case where any of these variables are null
               print('Error: Location or time data is not available');
             }
           },

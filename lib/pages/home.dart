@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 //import 'package:location/location.dart';
-import '../service/service.dart';
+import '../service/danger_service.dart';
 import 'danger_menu.dart';
 
 class Home extends StatefulWidget {
