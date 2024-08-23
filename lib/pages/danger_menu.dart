@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:safetybuddy/constants.dart';
+import 'package:safetybuddy/pages/danger_info.dart';
+import 'package:geolocator/geolocator.dart';
 
-class DangerMenuContainer extends StatelessWidget {
+class DangerMenuContainer extends StatefulWidget {
+  @override
+  State<DangerMenuContainer> createState() => _DangerMenuContainerState();
+}
+
+class _DangerMenuContainerState extends State<DangerMenuContainer> {
   double screenWidth = getScreenWidth();
+
+  int groupValue = 1;
+
+  int selectValue = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +51,13 @@ class DangerMenuContainer extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (ctx) => const DangerInfoForm(
+                                    type: 'Bad lights',
+                                  ));
+                        },
                         icon: SizedBox(
                           //width: 60.0,
                           //height: 60.0,
@@ -48,7 +66,7 @@ class DangerMenuContainer extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Text('Bad lights'),
+                      const Text('Bad lights'),
                     ],
                   )),
                   Container(
@@ -65,7 +83,7 @@ class DangerMenuContainer extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Text('Stray dogs'),
+                      const Text('Stray dogs'),
                     ],
                   )),
                   Container(
@@ -82,7 +100,7 @@ class DangerMenuContainer extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Text('TEST'),
+                      const Text('TEST'),
                     ],
                   )),
                 ],
@@ -105,7 +123,7 @@ class DangerMenuContainer extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Text('DE ADUGAT'),
+                      const Text('DE ADUGAT'),
                     ],
                   )),
                   Container(
@@ -122,7 +140,7 @@ class DangerMenuContainer extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Text('++++'),
+                      const Text('++++'),
                     ],
                   )),
                   Container(
@@ -139,7 +157,7 @@ class DangerMenuContainer extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Text('DE ADAUGAT'),
+                      const Text('DE ADAUGAT'),
                     ],
                   )),
                 ],
@@ -156,8 +174,8 @@ class DangerMenuContainer extends StatelessWidget {
             child: Container(
               height: 4,
               width: 100,
-              color: Color.fromRGBO(219, 219, 218, 1),
-              margin: EdgeInsets.only(top: 8),
+              color: const Color.fromRGBO(219, 219, 218, 1),
+              margin: const EdgeInsets.only(top: 8),
             ),
           ),
         ),

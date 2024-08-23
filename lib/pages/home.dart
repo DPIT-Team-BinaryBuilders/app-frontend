@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 //import 'package:location/location.dart';
+import '../service/service.dart';
 import 'danger_menu.dart';
 
 class Home extends StatefulWidget {
@@ -11,8 +12,38 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  static const LatLng _pGooglePlex = LatLng(46.163765, 24.351249);
-  bool _isDangerMenuVisible = false;
+  static const LatLng defaultLocation = LatLng(46.163765, 24.351249);
+  late GoogleMapController _mapController;
+  Service service = Service();
+  Set<Marker> _markers = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _loadDangers();
+  }
+
+  Future<void> _loadDangers() async {
+    List<dynamic> dangers = await service.fetchDangers();
+
+    Set<Marker> markers = {};
+    for (var danger in dangers) {
+      markers.add(
+        Marker(
+          markerId: MarkerId(danger['id'].toString()),
+          position: LatLng(danger['latitude'], danger['longitude']),
+          infoWindow: InfoWindow(
+            title: danger['type'],
+            snippet: danger['description'],
+          ),
+        ),
+      );
+    }
+
+    setState(() {
+      _markers = markers;
+    });
+  }
 
   void _toggleDangerMenu() {
     setState(() {
@@ -25,12 +56,16 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Stack(children: <Widget>[
       SafeArea(
-        child: const GoogleMap(
-          initialCameraPosition: CameraPosition(
-            target: _pGooglePlex,
+        child: GoogleMap(
+          initialCameraPosition: const CameraPosition(
+            target: defaultLocation,
             zoom: 13,
           ),
           zoomControlsEnabled: false,
+          markers: _markers,
+          onMapCreated: (controller) {
+            _mapController = controller;
+          },
         ),
       ),
       Positioned(
