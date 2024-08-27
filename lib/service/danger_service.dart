@@ -23,7 +23,7 @@ class Service {
       'longitude': longitude,
     };
 
-    var body = json.encode(data); // Encode the data to JSON
+    var body = json.encode(data);
     var response = await http.post(uri, headers: headers, body: body);
 
     if (response.statusCode == 200 || response.statusCode == 201) {
