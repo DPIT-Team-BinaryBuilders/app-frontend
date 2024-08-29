@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:safetybuddy/controller/loginController.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -8,10 +10,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  final TextEditingController _email = TextEditingController();
-  final TextEditingController _password = TextEditingController();
-  //String? _username;
-  //String? _password;
+  LoginController loginController = Get.put(LoginController());
 
   @override
   Widget build(BuildContext context) {
@@ -52,10 +51,10 @@ class _LoginState extends State<Login> {
                     ),
                     TextFormField(
                       decoration: const InputDecoration(labelText: 'Username'),
-                      controller: _email,
+                      controller: loginController.username,
                     ),
                     TextFormField(
-                      controller: _password,
+                      controller: loginController.password,
                       decoration: const InputDecoration(labelText: 'Password'),
                       obscureText: true,
                     ),
@@ -65,8 +64,8 @@ class _LoginState extends State<Login> {
                         child: SizedBox(
                           width: 200,
                           child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/home');
+                            onPressed: () async {
+                              await loginController.submit();
                             },
                             style: ElevatedButton.styleFrom(
                               foregroundColor: Colors.white,
