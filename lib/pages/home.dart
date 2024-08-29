@@ -14,7 +14,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   static const LatLng defaultLocation = LatLng(46.163765, 24.351249);
   late GoogleMapController _mapController;
-  Service service = Service();
+  DangerService service = DangerService();
   Set<Marker> _markers = {};
 
   @override

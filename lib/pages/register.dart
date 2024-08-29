@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:safetybuddy/controller/registerController.dart';
 
 class Register extends StatelessWidget {
   Register({super.key});
 
-  final TextEditingController _email = TextEditingController();
-  final TextEditingController _password = TextEditingController();
-  final TextEditingController _phone = TextEditingController();
+  RegisterController controller = Get.put(RegisterController());
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +50,7 @@ class Register extends StatelessWidget {
                       ),
                       const SizedBox(height: 0),
                       TextFormField(
-                        controller: _email,
+                        controller: controller.username,
                         decoration: InputDecoration(
                             alignLabelWithHint: true,
                             hintText: 'Username',
@@ -68,7 +68,7 @@ class Register extends StatelessWidget {
                       ),
                       const SizedBox(height: 5),
                       TextFormField(
-                        controller: _phone,
+                        controller: controller.phone_number,
                         decoration: InputDecoration(
                             alignLabelWithHint: true,
                             hintText: '+40** *** ***',
@@ -86,7 +86,8 @@ class Register extends StatelessWidget {
                       ),
                       const SizedBox(height: 5),
                       TextFormField(
-                        controller: _password,
+                        controller: controller.password,
+                        obscureText: true,
                         decoration: InputDecoration(
                             alignLabelWithHint: true,
                             hintText: '********',
@@ -105,7 +106,8 @@ class Register extends StatelessWidget {
                       ),
                       const SizedBox(height: 5),
                       TextFormField(
-                        controller: _password,
+                        obscureText: true,
+                        controller: controller.confirmPassword,
                         decoration: InputDecoration(
                             alignLabelWithHint: true,
                             hintText: '********',
@@ -135,7 +137,13 @@ class Register extends StatelessWidget {
                               fontSize: 19,
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: () async {
+                            print('${controller.username.text}');
+                            print('${controller.phone_number.text}');
+                            print('${controller.password.text}');
+
+                            await controller.submit();
+                          },
                         ),
                       ),
                       Row(

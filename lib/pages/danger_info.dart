@@ -12,7 +12,7 @@ class DangerInfoForm extends StatefulWidget {
 }
 
 class _DangerInfoFormState extends State<DangerInfoForm> {
-  Service service = Service();
+  DangerService service = DangerService();
 
   final TextEditingController _description = TextEditingController();
   int _selectedValue = 0;

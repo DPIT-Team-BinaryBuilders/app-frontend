@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-class Service {
+class DangerService {
   Future<http.Response> saveDanger(
       String type,
       String description,
