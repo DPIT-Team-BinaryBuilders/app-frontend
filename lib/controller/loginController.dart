@@ -79,7 +79,7 @@ class LoginController extends GetxController {
       final response = await dio.post(_apiUrl, data: requestData);
       if (response.statusCode == 200) {
         Map<String, dynamic> responseData = response.data;
-        String? token = responseData['token'];
+        String? token = responseData['token']; //jwtToken pt test adevarat
 
         if (token != null) {
           final prefs = await SharedPreferences.getInstance();

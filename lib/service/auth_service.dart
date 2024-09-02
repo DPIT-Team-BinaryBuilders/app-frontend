@@ -19,5 +19,8 @@ class AuthService extends GetxService {
   void logout() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('token');
+    Get.toNamed(
+      '/login',
+    );
   }
 }
