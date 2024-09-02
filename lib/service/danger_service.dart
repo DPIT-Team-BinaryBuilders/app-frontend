@@ -1,6 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:http/http.dart' as http;
+import 'package:safetybuddy/service/auth_service.dart';
+
+final AuthService authService = Get.put(AuthService());
 
 class DangerService {
   Future<http.Response> saveDanger(
@@ -21,7 +26,9 @@ class DangerService {
       'timeCreated': timeCreated,
       'latitude': latitude,
       'longitude': longitude,
+      'token': await authService.getToken(),
     };
+    print(data);
 
     var body = json.encode(data);
     var response = await http.post(uri, headers: headers, body: body);

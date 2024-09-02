@@ -13,7 +13,7 @@ void main() async {
 
   final AuthService authService = Get.put(AuthService());
 
-  bool isLoggedIn = false; //await authService.isLoggedIn(); --- de remember me
+  bool isLoggedIn = await authService.isLoggedIn(); // --- de remember me
 
   runApp(GetMaterialApp(initialRoute: isLoggedIn ? '/home' : '/', getPages: [
     //'landing_page': (context) => const LandingPage(),
