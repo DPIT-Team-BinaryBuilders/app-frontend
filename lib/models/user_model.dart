@@ -4,8 +4,5 @@ class User {
   String? email;
   String? phone_number;
 
-  User(
-      {required this.username,
-      required this.password,
-      required this.phone_number});
+  User({required this.username, required this.password, this.phone_number});
 }
