@@ -69,7 +69,7 @@ class LoginController extends GetxController {
   Future<bool> loginUser(User user) async {
     Dio dio = Dio();
     String _apiUrl =
-        "https://dummyjson.com/auth/login"; // de pus linkul de la rest postman
+        "http://192.168.1.180:8081/auth/login"; // de pus linkul de la rest postman
 
     try {
       Map<String, dynamic> requestData = {
@@ -79,7 +79,7 @@ class LoginController extends GetxController {
       final response = await dio.post(_apiUrl, data: requestData);
       if (response.statusCode == 200) {
         Map<String, dynamic> responseData = response.data;
-        String? token = responseData['token']; //jwtToken pt test adevarat
+        String? token = responseData['jwtToken']; //jwtToken pt test adevarat
 
         if (token != null) {
           final prefs = await SharedPreferences.getInstance();

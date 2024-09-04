@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 import '../service/danger_service.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -27,9 +29,8 @@ class _DangerInfoFormState extends State<DangerInfoForm> {
     String description = _description.text;
     String type = widget.type;
     _createdTime = DateTime.now();
-
-    _formatedTime = "${_createdTime.hour}:${_createdTime.minute}";
-
+    _formatedTime =
+        DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(_createdTime.toUtc());
     Position position = await _determinePosition();
     _latitude = position.latitude;
     _longitude = position.longitude;
@@ -112,7 +113,7 @@ class _DangerInfoFormState extends State<DangerInfoForm> {
           child: const Text('Submit'),
           onPressed: () async {
             await _getDangerInfo();
-            if (_formatedTime != null &&
+            if (_createdTime != null &&
                 _latitude != null &&
                 _longitude != null) {
               service.saveDanger(

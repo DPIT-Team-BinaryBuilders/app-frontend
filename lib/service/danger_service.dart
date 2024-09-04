@@ -15,18 +15,22 @@ class DangerService {
       String timeCreated,
       double latitude,
       double longitude) async {
-    var uri = Uri.parse("DATABASE RERVER"); // to replace with server link
+    var uri = Uri.parse(
+        "http://192.168.1.180:8083/danger/create-danger"); // to replace with server link
 
     Map<String, String> headers = {"Content-Type": "application/json"};
 
     Map<String, dynamic> data = {
+      'name': "dfdfd",
+      'additionalInformation': "chiar o suge",
+      "accuracy": 6.9,
       'type': type,
       'description': description,
       'dangerLevel': dangerLevel,
       'timeCreated': timeCreated,
-      'latitude': latitude,
-      'longitude': longitude,
-      'token': await authService.getToken(),
+      "duration": "2012-04-23T18:25:43.511Z",
+      "dangerLocation": {'lat': latitude, 'lng': longitude},
+      'jwtToken': await authService.getToken(),
     };
     print(data);
 
@@ -43,7 +47,7 @@ class DangerService {
   }
 
   Future<List<dynamic>> fetchDangers() async {
-    var uri = Uri.parse("DATABASE LINK");
+    var uri = Uri.parse("http://192.168.1.180:8083/danger/all");
 
     var response = await http.get(uri);
 

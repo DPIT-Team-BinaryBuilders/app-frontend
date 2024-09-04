@@ -70,7 +70,7 @@ class RegisterController extends GetxController {
 
   Future<bool> registerUser(User user) async {
     Dio dio = Dio();
-    String _apiUrl = "";
+    String _apiUrl = "http://192.168.1.180:8081/auth/register";
 
     try {
       Map<String, dynamic> requestData = {
