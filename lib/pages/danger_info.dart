@@ -1,3 +1,4 @@
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 
 import '../service/danger_service.dart';
@@ -6,8 +7,13 @@ import 'package:geolocator/geolocator.dart';
 
 class DangerInfoForm extends StatefulWidget {
   final String type;
+  final List<LatLng>? coordinates;
 
-  const DangerInfoForm({required this.type, super.key});
+  const DangerInfoForm({
+    required this.type,
+    super.key,
+    this.coordinates,
+  });
 
   @override
   State<DangerInfoForm> createState() => _DangerInfoFormState();
@@ -23,17 +29,20 @@ class _DangerInfoFormState extends State<DangerInfoForm> {
   double? _latitude;
   double? _longitude;
   String? _formatedTime;
+  late List<LatLng> _rectanglePoints;
 
   Future<void> _getDangerInfo() async {
     int selectedDangerLevel = _selectedValue;
     String description = _description.text;
     String type = widget.type;
+
     _createdTime = DateTime.now();
     _formatedTime =
         DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(_createdTime.toUtc());
     Position position = await _determinePosition();
     _latitude = position.latitude;
     _longitude = position.longitude;
+    _rectanglePoints = widget.coordinates!;
 
     //setState(() {
     //_locationMessage = 'Latitude: $_latitude, Longitude: $_longitude';
@@ -44,6 +53,7 @@ class _DangerInfoFormState extends State<DangerInfoForm> {
     print('Selected Danger Level: $selectedDangerLevel');
     print('Time Created: $_formatedTime');
     print('Location: Latitude: $_latitude, Longitude: $_longitude');
+    print('rectangle points: $_rectanglePoints');
   }
 
   Future<Position> _determinePosition() async {
@@ -113,16 +123,30 @@ class _DangerInfoFormState extends State<DangerInfoForm> {
           child: const Text('Submit'),
           onPressed: () async {
             await _getDangerInfo();
-            if (_createdTime != null &&
+            if (_createdTime != null && widget.type == 'Italian city') {
+              print("intrat in save danger");
+              service.saveDanger(
+                widget.type,
+                _description.text,
+                _selectedValue.toString(),
+                _formatedTime!,
+                0,
+                0,
+                _rectanglePoints,
+              );
+              Navigator.of(context).pop();
+            } else if (_createdTime != null &&
                 _latitude != null &&
-                _longitude != null) {
+                _longitude != null &&
+                widget.type != 'Italian city') {
               service.saveDanger(
                   widget.type,
                   _description.text,
                   _selectedValue.toString(),
                   _formatedTime!,
                   _latitude!,
-                  _longitude!);
+                  _longitude!,
+                  _rectanglePoints);
               Navigator.of(context).pop();
             } else {
               print('Error: Location or time data is not available');

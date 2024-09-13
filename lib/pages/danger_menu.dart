@@ -5,6 +5,9 @@ import 'package:safetybuddy/pages/danger_info.dart';
 import 'package:geolocator/geolocator.dart';
 
 class DangerMenuContainer extends StatefulWidget {
+  final VoidCallback onMenuSet;
+  DangerMenuContainer({required this.onMenuSet});
+
   @override
   State<DangerMenuContainer> createState() => _DangerMenuContainerState();
 }
@@ -74,7 +77,13 @@ class _DangerMenuContainerState extends State<DangerMenuContainer> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (ctx) => const DangerInfoForm(
+                                    type: 'Stray dogs',
+                                  ));
+                        },
                         icon: SizedBox(
                           //width: 60.0,
                           //height: 60.0,
@@ -91,7 +100,9 @@ class _DangerMenuContainerState extends State<DangerMenuContainer> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          widget.onMenuSet();
+                        },
                         icon: SizedBox(
                           //width: 60.0,
                           //height: 60.0,
@@ -100,7 +111,8 @@ class _DangerMenuContainerState extends State<DangerMenuContainer> {
                           ),
                         ),
                       ),
-                      const Text('TEST'),
+                      const Text('Italian'),
+                      const Text('city'),
                     ],
                   )),
                 ],

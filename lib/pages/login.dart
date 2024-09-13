@@ -89,7 +89,11 @@ class _LoginState extends State<Login> {
                 children: [
                   const Text("Don't have an acocount?"),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.toNamed(
+                        '/register',
+                      );
+                    },
                     style: ButtonStyle(
                       foregroundColor:
                           MaterialStateProperty.all<Color>(Colors.red),
