@@ -32,10 +32,11 @@ class _HomeState extends State<Home> {
 
     Set<Marker> markers = {};
     for (var danger in dangers) {
+      dynamic dangerLocation = danger["dangerLocation"];
       markers.add(
         Marker(
           markerId: MarkerId(danger['id'].toString()),
-          position: LatLng(danger['latitude'], danger['longitude']),
+          position: LatLng(dangerLocation["lat"], dangerLocation["lng"]),
           infoWindow: InfoWindow(
             title: danger['type'],
             snippet: danger['description'],
@@ -84,7 +85,7 @@ class _HomeState extends State<Home> {
         bottom: 20.0,
         left: 20.0,
         child: FloatingActionButton(
-          onPressed: authService.logout,
+          onPressed: _loadDangers,
           child: const Text('logout'),
         ),
       ),
