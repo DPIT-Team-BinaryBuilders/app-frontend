@@ -9,7 +9,8 @@ import 'danger_menu.dart';
 import 'package:get/get.dart';
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  final bool stopTimer;
+  const Home({super.key, required this.stopTimer});
 
   @override
   State<Home> createState() => _HomeState();
@@ -30,17 +31,21 @@ class _HomeState extends State<Home> {
   bool _enableLatLngCapture = false;
   List<LatLng> _capturedCoordinates = [];
 
+  bool stopTimer = false;
+
   @override
   void initState() {
     super.initState();
-    //_dangerRefresh();
+    _dangerRefresh();
   }
 
   void _dangerRefresh() {
-    _timer = Timer.periodic(const Duration(minutes: 2), (timer) {
-      _loadDangers(); //refreshes dangers on map
-    });
     _loadDangers();
+    if (!stopTimer) {
+      _timer = Timer.periodic(const Duration(seconds: 15), (timer) {
+        _loadDangers(); //refreshes dangers on map
+      });
+    }
   }
 
   Future<void> _loadDangers() async {
@@ -49,26 +54,28 @@ class _HomeState extends State<Home> {
     Set<Marker> markers = {};
     Set<Polygon> polygons = {};
     for (var danger in dangers) {
-      dynamic dangerLocation = danger["dangerLocation"];
-
-      markers.add(
-        Marker(
-          markerId: MarkerId(danger['id'].toString()),
-          position: LatLng(dangerLocation["lat"], dangerLocation["lng"]),
-          infoWindow: InfoWindow(
-            title: danger['type'],
-            snippet: danger['description'],
+      if (danger['type'] != 'Italian city') {
+        dynamic dangerLocation = danger["dangerLocation"];
+        markers.add(
+          Marker(
+            markerId: MarkerId(danger['id'].toString()),
+            position: LatLng(dangerLocation["lat"], dangerLocation["lng"]),
+            infoWindow: InfoWindow(
+              title: danger['type'],
+              snippet: danger['description'],
+            ),
           ),
-        ),
-      );
+        );
+      }
 
       if (danger['type'] == 'Italian city') {
-        List<LatLng> rectanglePoints = [
-          LatLng(dangerLocation["lat"], dangerLocation["lng"]),
-          LatLng(dangerLocation["lat"], dangerLocation["lng"]),
-          LatLng(dangerLocation["lat"], dangerLocation["lng"]),
-          LatLng(dangerLocation["lat"], dangerLocation["lng"]),
-        ];
+        List<dynamic> rectanglePointJson = danger["rectanglePoints"];
+        List<LatLng> rectanglePoints = [];
+        for (int i = 0; i <= 3; i++) {
+          dynamic rectanglePoint = rectanglePointJson[i];
+          rectanglePoints
+              .add(LatLng(rectanglePoint["lat"], rectanglePoint['lng']));
+        }
         polygons.add(
           Polygon(
             polygonId: PolygonId('polygon_${danger['id']}'),
@@ -80,7 +87,7 @@ class _HomeState extends State<Home> {
         );
       }
     }
-
+    print(markers.length);
     setState(() {
       _markers = markers;
       _polygons = polygons;
@@ -122,10 +129,10 @@ class _HomeState extends State<Home> {
         _addedMarkers.add(newMarker);
       });
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content: Text('LatLng: ${latLng.latitude}, ${latLng.longitude}')),
-      );
+      //   ScaffoldMessenger.of(context).showSnackBar(
+      // SnackBar(
+      //       content: Text('LatLng: ${latLng.latitude}, ${latLng.longitude}')),
+      //);
     }
   }
 
@@ -173,6 +180,7 @@ class _HomeState extends State<Home> {
         right: 20.0,
         child: FloatingActionButton(
           onPressed: () {
+            stopTimer = true;
             _capturedCoordinates = [];
             _toggleDangerMenu();
           },
