@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:safetybuddy/service/auth_service.dart';
 
@@ -14,7 +15,8 @@ class DangerService {
       String dangerLevel,
       String timeCreated,
       double latitude,
-      double longitude) async {
+      double longitude,
+      List<LatLng> rectanglePoints) async {
     var uri = Uri.parse(
         "http://192.168.1.180:8083/danger/create-danger"); // to replace with server link
 
@@ -22,7 +24,7 @@ class DangerService {
 
     Map<String, dynamic> data = {
       'name': "dfdfd",
-      'additionalInformation': "chiar o suge",
+      'additionalInformation': "test",
       "accuracy": 6.9,
       'type': type,
       'description': description,
@@ -31,6 +33,7 @@ class DangerService {
       "duration": "2012-04-23T18:25:43.511Z",
       "dangerLocation": {'lat': latitude, 'lng': longitude},
       'jwtToken': await authService.getToken(),
+      "rectanglePoints": rectanglePoints,
     };
     print(data);
 
