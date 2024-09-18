@@ -65,7 +65,8 @@ class _LoginState extends State<Login> {
                           width: 200,
                           child: ElevatedButton(
                             onPressed: () async {
-                              await loginController.submit();
+                              //await loginController.submit();
+                              Get.toNamed("/home");
                             },
                             style: ElevatedButton.styleFrom(
                               foregroundColor: Colors.white,

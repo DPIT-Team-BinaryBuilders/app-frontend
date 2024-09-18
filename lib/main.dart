@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:safetybuddy/pages/bluetooth_scanner.dart';
 import 'package:safetybuddy/pages/home.dart';
 import 'package:safetybuddy/pages/landing_page.dart';
 import 'package:safetybuddy/pages/login.dart';
@@ -20,6 +21,7 @@ void main() async {
     GetPage(name: '/', page: () => const LandingPage()),
     GetPage(name: '/register', page: () => Register()),
     GetPage(name: '/login', page: () => const Login()),
+    GetPage(name: '/ble', page: () => const BleScanner()),
     GetPage(
         name: '/home',
         page: () => const Home(
