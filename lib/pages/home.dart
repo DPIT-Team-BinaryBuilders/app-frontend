@@ -36,7 +36,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    _dangerRefresh();
+    //_dangerRefresh();
   }
 
   void _dangerRefresh() {
@@ -179,6 +179,7 @@ class _HomeState extends State<Home> {
         bottom: 20.0,
         right: 20.0,
         child: FloatingActionButton(
+          heroTag: 'btn1',
           onPressed: () {
             stopTimer = true;
             _capturedCoordinates = [];
@@ -188,9 +189,23 @@ class _HomeState extends State<Home> {
         ),
       ),
       Positioned(
+        top: 50.0,
+        right: 20.0,
+        child: FloatingActionButton(
+          heroTag: 'btn2',
+          onPressed: () {
+            Get.toNamed(
+              '/ble',
+            );
+          },
+          child: const Icon(Icons.add),
+        ),
+      ),
+      Positioned(
         bottom: 20.0,
         left: 20.0,
         child: FloatingActionButton(
+          heroTag: 'btn3',
           onPressed: _loadDangers,
           child: const Text('logout'),
         ),
@@ -202,6 +217,7 @@ class _HomeState extends State<Home> {
           bottom: 20.0,
           right: 20.0,
           child: FloatingActionButton(
+            heroTag: 'btn4',
             onPressed: () {
               setState(() {
                 _onSave();
@@ -215,6 +231,7 @@ class _HomeState extends State<Home> {
           bottom: 20.0,
           left: 20.0,
           child: FloatingActionButton(
+            heroTag: 'btn5',
             onPressed: () {
               _clearAddedMarkers();
               _capturedCoordinates = [];
@@ -226,6 +243,7 @@ class _HomeState extends State<Home> {
           bottom: 20.0,
           left: 80.0,
           child: FloatingActionButton(
+            heroTag: 'btn6',
             onPressed: () {
               setState(() {
                 _enableLatLngCapture = false;
