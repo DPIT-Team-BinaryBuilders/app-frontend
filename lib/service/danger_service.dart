@@ -18,23 +18,56 @@ class DangerService {
       double longitude,
       List<LatLng> rectanglePoints) async {
     var uri = Uri.parse(
-        "http://192.168.1.180:8083/danger/create-danger"); // to replace with server link
+        "http://192.168.1.180:8083/danger/create"); // to replace with server link
 
     Map<String, String> headers = {"Content-Type": "application/json"};
-
-    Map<String, dynamic> data = {
-      'name': "dfdfd",
-      'additionalInformation': "test",
-      "accuracy": 6.9,
-      'type': type,
-      'description': description,
-      'dangerLevel': dangerLevel,
-      'timeCreated': timeCreated,
-      "duration": "2012-04-23T18:25:43.511Z",
-      "dangerLocation": {'lat': latitude, 'lng': longitude},
-      'jwtToken': await authService.getToken(),
-      "rectanglePoints": rectanglePoints,
-    };
+    Map<String, dynamic> data;
+    if (rectanglePoints.isNotEmpty) {
+      data = {
+        'name': "dfdfd",
+        'additionalInformation': "test",
+        "accuracy": 6.9,
+        'type': type,
+        'description': description,
+        'dangerLevel': dangerLevel,
+        'timeCreated': timeCreated,
+        "duration": "2012-04-23T18:25:43.511Z",
+        "dangerLocation": {'lat': latitude, 'lng': longitude},
+        'jwtToken': await authService.getToken(),
+        "rectanglePoints": [
+          {
+            'lat': rectanglePoints[0].latitude,
+            'lng': rectanglePoints[0].longitude
+          },
+          {
+            'lat': rectanglePoints[1].latitude,
+            'lng': rectanglePoints[1].longitude
+          },
+          {
+            'lat': rectanglePoints[2].latitude,
+            'lng': rectanglePoints[2].longitude
+          },
+          {
+            'lat': rectanglePoints[3].latitude,
+            'lng': rectanglePoints[3].longitude
+          }
+        ],
+      };
+    } else {
+      data = {
+        'name': "dfdfd",
+        'additionalInformation': "test",
+        "accuracy": 6.9,
+        'type': type,
+        'description': description,
+        'dangerLevel': dangerLevel,
+        'timeCreated': timeCreated,
+        "duration": "2012-04-23T18:25:43.511Z",
+        "dangerLocation": {'lat': latitude, 'lng': longitude},
+        'jwtToken': await authService.getToken(),
+        "rectanglePoints": []
+      };
+    }
     print(data);
 
     var body = json.encode(data);

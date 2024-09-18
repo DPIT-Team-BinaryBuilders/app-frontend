@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:safetybuddy/constants.dart';
 import 'package:safetybuddy/pages/danger_info.dart';
-import 'package:geolocator/geolocator.dart';
 
 class DangerMenuContainer extends StatefulWidget {
   final VoidCallback onMenuSet;

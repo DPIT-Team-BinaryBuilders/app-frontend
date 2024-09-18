@@ -1,5 +1,6 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:safetybuddy/pages/home.dart';
 
 import '../service/danger_service.dart';
 import 'package:flutter/material.dart';
@@ -9,11 +10,7 @@ class DangerInfoForm extends StatefulWidget {
   final String type;
   final List<LatLng>? coordinates;
 
-  const DangerInfoForm({
-    required this.type,
-    super.key,
-    this.coordinates,
-  });
+  const DangerInfoForm({required this.type, super.key, this.coordinates});
 
   @override
   State<DangerInfoForm> createState() => _DangerInfoFormState();
@@ -32,28 +29,21 @@ class _DangerInfoFormState extends State<DangerInfoForm> {
   late List<LatLng> _rectanglePoints;
 
   Future<void> _getDangerInfo() async {
-    int selectedDangerLevel = _selectedValue;
-    String description = _description.text;
-    String type = widget.type;
-
     _createdTime = DateTime.now();
     _formatedTime =
         DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(_createdTime.toUtc());
     Position position = await _determinePosition();
     _latitude = position.latitude;
     _longitude = position.longitude;
-    _rectanglePoints = widget.coordinates!;
+    if (widget.coordinates == null) {
+      _rectanglePoints = [];
+    } else {
+      _rectanglePoints = widget.coordinates!;
+    }
 
     //setState(() {
     //_locationMessage = 'Latitude: $_latitude, Longitude: $_longitude';
     //});
-
-    print('Danger Type: $type');
-    print('Description: $description');
-    print('Selected Danger Level: $selectedDangerLevel');
-    print('Time Created: $_formatedTime');
-    print('Location: Latitude: $_latitude, Longitude: $_longitude');
-    print('rectangle points: $_rectanglePoints');
   }
 
   Future<Position> _determinePosition() async {
@@ -123,8 +113,7 @@ class _DangerInfoFormState extends State<DangerInfoForm> {
           child: const Text('Submit'),
           onPressed: () async {
             await _getDangerInfo();
-            if (_createdTime != null && widget.type == 'Italian city') {
-              print("intrat in save danger");
+            if (widget.type == 'Italian city') {
               service.saveDanger(
                 widget.type,
                 _description.text,
@@ -135,8 +124,13 @@ class _DangerInfoFormState extends State<DangerInfoForm> {
                 _rectanglePoints,
               );
               Navigator.of(context).pop();
-            } else if (_createdTime != null &&
-                _latitude != null &&
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Home(stopTimer: true),
+                ),
+              );
+            } else if (_latitude != null &&
                 _longitude != null &&
                 widget.type != 'Italian city') {
               service.saveDanger(
@@ -145,11 +139,14 @@ class _DangerInfoFormState extends State<DangerInfoForm> {
                   _selectedValue.toString(),
                   _formatedTime!,
                   _latitude!,
-                  _longitude!,
-                  _rectanglePoints);
+                  _longitude!, []);
               Navigator.of(context).pop();
-            } else {
-              print('Error: Location or time data is not available');
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Home(stopTimer: true),
+                ),
+              );
             }
           },
         ),

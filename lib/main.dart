@@ -20,6 +20,10 @@ void main() async {
     GetPage(name: '/', page: () => const LandingPage()),
     GetPage(name: '/register', page: () => Register()),
     GetPage(name: '/login', page: () => const Login()),
-    GetPage(name: '/home', page: () => const Home()),
+    GetPage(
+        name: '/home',
+        page: () => const Home(
+              stopTimer: false,
+            )),
   ]));
 }
