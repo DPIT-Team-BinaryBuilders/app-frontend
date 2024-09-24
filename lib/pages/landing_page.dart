@@ -22,27 +22,32 @@ class LandingPage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Container(
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text('Welcome!',
-                            style: TextStyle(
-                              fontFamily: "Inter",
-                              fontSize: 35,
-                            )),
-                      ],
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text('Welcome!',
+                          style: TextStyle(
+                            fontFamily: "Inter",
+                            fontSize: 35,
+                          )),
+                    ],
                   ),
                   const SizedBox(height: 20),
-                  const Text(
-                    'DE ADAUGAT DE ADAUGAT DE ADAUGAT DE ADAUGAT DE ADAUGAT',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontFamily: '',
-                      fontSize: 14,
-                      color: Color.fromARGB(255, 137, 137, 137),
-                    ),
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                        child: const Text(
+                          'Your safe travel app',
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontFamily: '',
+                            fontSize: 18,
+                            color: Color.fromARGB(255, 137, 137, 137),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 22),
                   Row(

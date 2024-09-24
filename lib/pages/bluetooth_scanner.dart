@@ -41,18 +41,21 @@ class _BleScannerState extends State<BleScanner> {
                   stream: FlutterBluePlus.scanResults,
                   builder: (context, snapshot) {
                     if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                      print(snapshot.data);
+                      //print(snapshot.data);
                       return ListView.builder(
                         shrinkWrap: true,
                         itemCount: snapshot.data!.length,
                         itemBuilder: (context, index) {
                           final data = snapshot.data![index];
-                          print(data);
+                          //  print(data);
                           return Card(
                             child: ListTile(
                               title: Text(data.device.platformName),
                               subtitle: Text(data.device.advName),
                               trailing: Text(data.rssi.toString()),
+                              onTap: () {
+                                controller.connectToDevice(data.device);
+                              },
                             ),
                           );
                         },

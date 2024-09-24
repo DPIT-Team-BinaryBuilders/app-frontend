@@ -21,7 +21,7 @@ class _LoginState extends State<Login> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                height: 490,
+                height: 430,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage('assets/vector.png'),
