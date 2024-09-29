@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:safetybuddy/controller/bluetoothController.dart';
+import 'package:safetybuddy/pages/account_page.dart';
 import 'package:safetybuddy/pages/danger_info.dart';
 import 'package:safetybuddy/service/auth_service.dart';
+import 'package:safetybuddy/service/notification_service.dart';
 import 'dart:async';
 //import 'package:location/location.dart';
 import '../service/danger_service.dart';
@@ -18,6 +21,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final AuthService authService = Get.put(AuthService());
+  final BleController bleController = Get.put(BleController());
   static const LatLng defaultLocation = LatLng(46.163765, 24.351249);
   late GoogleMapController _mapController;
   DangerService service = DangerService();
@@ -39,11 +43,13 @@ class _HomeState extends State<Home> {
     //_dangerRefresh();
   }
 
-  void _dangerRefresh() {
+  void _dangerAndPositionRefresh() {
     _loadDangers();
+    var device = bleController.connectedDevice;
     if (!stopTimer) {
       _timer = Timer.periodic(const Duration(seconds: 15), (timer) {
         _loadDangers(); //refreshes dangers on map
+        checkLocationStatus(getUserLocation());
       });
     }
   }
@@ -188,26 +194,29 @@ class _HomeState extends State<Home> {
           child: const Icon(Icons.add),
         ),
       ),
-      Positioned(
-        top: 50.0,
-        right: 20.0,
-        child: FloatingActionButton(
-          heroTag: 'btn2',
-          onPressed: () {
-            Get.toNamed(
-              '/ble',
-            );
-          },
-          child: const Icon(Icons.add),
-        ),
-      ),
-      Positioned(
+      const Positioned(
         bottom: 20.0,
         left: 20.0,
         child: FloatingActionButton(
           heroTag: 'btn3',
-          onPressed: _loadDangers,
-          child: const Text('logout'),
+          // onPressed: () async {
+          //   //var device = bleController.connectedDevice;
+          //   //bleController.sendData(device, "DangerZone");
+          //   sendNotification();
+          // },
+          onPressed: sendNotification,
+          child: Text('test notif'),
+        ),
+      ),
+      Positioned(
+        top: 60.0,
+        left: 20.0,
+        child: FloatingActionButton(
+          heroTag: 'btn7',
+          onPressed: () {
+            Navigator.of(context).push(_createRoute());
+          },
+          child: const Icon(Icons.menu),
         ),
       ),
       if (_enableLatLngCapture) ...[
@@ -258,10 +267,28 @@ class _HomeState extends State<Home> {
             top: 100.0,
             left: 80.0,
             child: Text(
-              'Mark the neighbourhood',
+              'Mark th bad zone',
               style: TextStyle(fontSize: 18),
             )),
       ]
     ]);
   }
+}
+
+Route _createRoute() {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => AccountPage(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(-1.0, 0.0);
+      const end = Offset(0.0, 0.0);
+      const curve = Curves.easeInOut;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
 }

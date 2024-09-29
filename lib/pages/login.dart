@@ -21,7 +21,7 @@ class _LoginState extends State<Login> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                height: 490,
+                height: 430,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage('assets/vector.png'),
@@ -70,14 +70,18 @@ class _LoginState extends State<Login> {
                             },
                             style: ElevatedButton.styleFrom(
                               foregroundColor: Colors.white,
-                              backgroundColor: Colors.orange,
+                              backgroundColor:
+                                  Color.fromARGB(255, 255, 137, 137),
                               padding: const EdgeInsets.symmetric(
                                   vertical: 15.0, horizontal: 30.0),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8.0),
+                                borderRadius: BorderRadius.circular(17),
                               ),
                             ),
-                            child: const Text('Login'),
+                            child: const Text(
+                              'Login',
+                              style: TextStyle(fontSize: 19),
+                            ),
                           ),
                         ),
                       ),
