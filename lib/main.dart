@@ -13,16 +13,26 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   AwesomeNotifications().initialize(
-    'resource_key',
+    // set the icon to null if you want to use the default app icon
+    null,
     [
       NotificationChannel(
+        channelGroupKey: 'basic_channel_group',
         channelKey: 'basic_channel',
         channelName: 'Basic notifications',
         channelDescription: 'Notification channel for basic tests',
-        defaultColor: Color(0xFF9D50b8),
+        defaultColor: Colors.blue,
         ledColor: Colors.white,
+        importance: NotificationImportance.Max,
       )
     ],
+    // Channel groups are only visual and are not required
+    channelGroups: [
+      NotificationChannelGroup(
+          channelGroupKey: 'basic_channel_group',
+          channelGroupName: 'Basic group')
+    ],
+    debug: true,
   );
 
   final AuthService authService = Get.put(AuthService());
