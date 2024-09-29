@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:dio/dio.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -12,6 +13,14 @@ getUserLocation() async {
   Position position = await Geolocator.getCurrentPosition();
   userLocation = "${position.latitude},${position.longitude}";
   return userLocation;
+}
+
+checkUserPermision() {
+  AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
+    if (!isAllowed) {
+      AwesomeNotifications().requestPermissionToSendNotifications();
+    }
+  });
 }
 
 checkLocationStatus(userLocation) async {
@@ -35,4 +44,15 @@ checkLocationStatus(userLocation) async {
       }
     }
   }
+}
+
+sendNotification() {
+  checkUserPermision();
+  AwesomeNotifications().createNotification(
+    content: NotificationContent(
+        id: 10,
+        channelKey: 'basic_channel',
+        title: 'Near a danger zone',
+        body: 'Head back'),
+  );
 }

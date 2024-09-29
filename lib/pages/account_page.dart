@@ -8,7 +8,7 @@ class AccountPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 19, 3, 104),
+      backgroundColor: Colors.white,
       body: Stack(
         alignment: Alignment.topLeft,
         children: [
@@ -65,7 +65,7 @@ class WavyBackgroundPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint1 = Paint()
-      ..color = const Color.fromARGB(255, 79, 30, 239)
+      ..color = const Color.fromARGB(255, 255, 137, 137)
       ..style = PaintingStyle.fill;
 
     Path path = Path();

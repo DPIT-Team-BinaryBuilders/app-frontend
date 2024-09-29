@@ -194,16 +194,18 @@ class _HomeState extends State<Home> {
           child: const Icon(Icons.add),
         ),
       ),
-      Positioned(
+      const Positioned(
         bottom: 20.0,
         left: 20.0,
         child: FloatingActionButton(
           heroTag: 'btn3',
-          onPressed: () {
-            var device = bleController.connectedDevice;
-            bleController.sendData(device, "DangerZone");
-          },
-          child: const Text('test notif'),
+          // onPressed: () async {
+          //   //var device = bleController.connectedDevice;
+          //   //bleController.sendData(device, "DangerZone");
+          //   sendNotification();
+          // },
+          onPressed: sendNotification,
+          child: Text('test notif'),
         ),
       ),
       Positioned(
@@ -265,7 +267,7 @@ class _HomeState extends State<Home> {
             top: 100.0,
             left: 80.0,
             child: Text(
-              'Mark the neighbourhood',
+              'Mark th bad zone',
               style: TextStyle(fontSize: 18),
             )),
       ]

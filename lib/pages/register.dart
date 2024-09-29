@@ -191,8 +191,10 @@ class Line extends CustomPainter {
       ..strokeWidth = 3
       ..style = PaintingStyle.fill;
 
-    Offset p1 = Offset(20, size.height * 0.6);
-    Offset p2 = Offset(size.width * 0.24, size.height * 0.6);
+    // p1 stays at 20 pixels from the left
+    Offset p1 = Offset(0, size.height * 0.6);
+
+    Offset p2 = Offset(size.width + 70, size.height * 0.6);
 
     canvas.drawLine(p1, p2, salmonPaint);
   }
