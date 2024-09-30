@@ -68,9 +68,9 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 
 flutter_icons:
-  image_path: "assets/logo.jpg" 
   android: true
   ios: true
+  image_path: "assets/logo.png" 
 
 # The following section is specific to Flutter packages.
 flutter:

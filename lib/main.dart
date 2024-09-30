@@ -13,7 +13,6 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   AwesomeNotifications().initialize(
-    // set the icon to null if you want to use the default app icon
     null,
     [
       NotificationChannel(
@@ -26,7 +25,6 @@ void main() {
         importance: NotificationImportance.Max,
       )
     ],
-    // Channel groups are only visual and are not required
     channelGroups: [
       NotificationChannelGroup(
           channelGroupKey: 'basic_channel_group',

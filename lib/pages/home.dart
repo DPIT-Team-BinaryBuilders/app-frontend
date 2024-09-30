@@ -5,6 +5,7 @@ import 'package:safetybuddy/pages/account_page.dart';
 import 'package:safetybuddy/pages/danger_info.dart';
 import 'package:safetybuddy/service/auth_service.dart';
 import 'package:safetybuddy/service/notification_service.dart';
+import 'package:safetybuddy/service/user_service.dart';
 import 'dart:async';
 //import 'package:location/location.dart';
 import '../service/danger_service.dart';
@@ -22,9 +23,11 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final AuthService authService = Get.put(AuthService());
   final BleController bleController = Get.put(BleController());
+
   static const LatLng defaultLocation = LatLng(46.163765, 24.351249);
   late GoogleMapController _mapController;
   DangerService service = DangerService();
+  UserService userService = UserService();
 
   Set<Marker> _markers = {};
   Set<Marker> _addedMarkers = {};
@@ -40,7 +43,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    //_dangerRefresh();
+    _dangerAndPositionRefresh();
   }
 
   void _dangerAndPositionRefresh() {
@@ -172,7 +175,9 @@ class _HomeState extends State<Home> {
             target: defaultLocation,
             zoom: 13,
           ),
+          myLocationEnabled: true,
           zoomControlsEnabled: false,
+          myLocationButtonEnabled: false,
           markers: _markers,
           polygons: _polygons,
           onMapCreated: (controller) {
@@ -194,7 +199,7 @@ class _HomeState extends State<Home> {
           child: const Icon(Icons.add),
         ),
       ),
-      const Positioned(
+      Positioned(
         bottom: 20.0,
         left: 20.0,
         child: FloatingActionButton(
@@ -204,8 +209,11 @@ class _HomeState extends State<Home> {
           //   //bleController.sendData(device, "DangerZone");
           //   sendNotification();
           // },
-          onPressed: sendNotification,
-          child: Text('test notif'),
+          onPressed: () {
+            sendNotification();
+            userService.centerOnLocation(_mapController);
+          },
+          child: Icon(Icons.my_location),
         ),
       ),
       Positioned(
@@ -267,7 +275,7 @@ class _HomeState extends State<Home> {
             top: 100.0,
             left: 80.0,
             child: Text(
-              'Mark th bad zone',
+              'Mark the bad zone',
               style: TextStyle(fontSize: 18),
             )),
       ]

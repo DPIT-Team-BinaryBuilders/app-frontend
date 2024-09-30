@@ -23,18 +23,39 @@ class _BleScannerState extends State<BleScanner> {
             children: [
               Container(
                 height: 180,
-                color: Colors.blue,
+                color: Color.fromARGB(255, 255, 137, 137),
                 child: const Center(
-                  child: Text("SCANNER"),
+                  child: Text(
+                    "Bluetooth",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(height: 20),
               Center(
                   child: ElevatedButton(
+                style: TextButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 255, 137, 137),
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(17),
+                  ),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                ),
                 onPressed: () {
                   controller.scanDevices();
                 },
-                child: Text("Scan"),
+                child: Text(
+                  "Scan",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                  ),
+                ),
               )),
               const SizedBox(height: 20),
               StreamBuilder<List<ScanResult>>(
@@ -62,7 +83,7 @@ class _BleScannerState extends State<BleScanner> {
                       );
                     } else {
                       return const Center(
-                        child: Text("no devices found"),
+                        child: Text(""),
                       );
                     }
                   })

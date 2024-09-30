@@ -2,11 +2,8 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:dio/dio.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:get/get.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:safetybuddy/controller/bluetoothController.dart';
-import 'package:safetybuddy/pages/bluetooth_scanner.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 getUserLocation() async {
@@ -48,9 +45,9 @@ checkLocationStatus(userLocation) async {
   final response = await dio.post(_apiUrl, data: data);
 
   if (response.statusCode == 200) {
-    Map<String, dynamic> responseData = response.data;
-    var distance = responseData['distance'];
-    if (1 == 1) {
+    bool responseData = response.data;
+    bool notification = responseData;
+    if (notification) {
       //notif send condittion
       if (BluetoothConnectionState.connected == true) {
         // Sends DangerZone to watch
@@ -58,11 +55,12 @@ checkLocationStatus(userLocation) async {
         var device = bleController.connectedDevice;
         bleController.sendData(device!, "DangerZone");
       }
+      sendNotification();
     }
   }
 }
 
-sendNotification() async {
+sendNotification() {
   print('intrat in send notif');
   requestNotificationPermission();
   AwesomeNotifications().createNotification(
