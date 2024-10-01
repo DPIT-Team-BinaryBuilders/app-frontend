@@ -6,6 +6,8 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:safetybuddy/controller/bluetoothController.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+bool notif = true;
+
 getUserLocation() async {
   String userLocation;
   Position position = await Geolocator.getCurrentPosition();
@@ -36,26 +38,30 @@ Future<void> requestNotificationPermission() async {
   }
 }
 
-checkLocationStatus(userLocation) async {
+checkLocationStatus() async {
   Dio dio = Dio();
-  String _apiUrl = "de completat";
+  String _apiUrl = "http://192.168.1.180:8084/notification/new";
   final BleController bleController = Get.put(BleController());
-
-  Map<String, dynamic> data = {userLocation: getUserLocation()};
-  final response = await dio.post(_apiUrl, data: data);
+  Position position = await Geolocator.getCurrentPosition();
+  Map<String, double> data = {
+    "lat": position.latitude,
+    "lng": position.longitude
+  };
+  final response = await dio.get(_apiUrl, data: data);
 
   if (response.statusCode == 200) {
     bool responseData = response.data;
     bool notification = responseData;
-    if (notification) {
+
+    if (notification && notif) {
       //notif send condittion
-      if (BluetoothConnectionState.connected == true) {
-        // Sends DangerZone to watch
-        print("trimit activare ceas");
-        var device = bleController.connectedDevice;
-        bleController.sendData(device!, "DangerZone");
-      }
+      print(BluetoothConnectionState.connected);
+      // Sends DangerZone to watch
+      print("trimit activare ceas");
+      var device = bleController.connectedDevice;
+      bleController.sendData(device!, "DangerZone");
       sendNotification();
+      notif = false;
     }
   }
 }

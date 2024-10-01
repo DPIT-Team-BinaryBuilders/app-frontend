@@ -5,7 +5,8 @@ import 'dart:convert';
 
 class BleController extends GetxController {
   FlutterBluePlus flutterBlue = FlutterBluePlus();
-  late BluetoothDevice connectedDevice;
+  late BluetoothDevice? connectedDevice = null;
+  late BluetoothConnectionState? connectionState = null;
 
   Future<void> scanDevices() async {
     if (await Permission.bluetoothScan.request().isGranted &&
@@ -24,15 +25,14 @@ class BleController extends GetxController {
     await device?.connect(timeout: const Duration(seconds: 15));
     connectedDevice = device;
     discoverServices(device);
-
-    // device.connectionState.listen((isConnected) {
-    //   if (isConnected == BluetoothConnectionState.connected) {
-    //     print('device connected ${device.platformName}');
-    //   } else {
-    //     print('device disconnected');
-    //   }
-    //   ;
-    // });
+    device.connectionState.listen((isConnected) {
+      if (isConnected == BluetoothConnectionState.connected) {
+        connectionState = BluetoothConnectionState.connected;
+      } else {
+        print('device disconnected');
+      }
+      ;
+    });
   }
 
   void discoverServices(BluetoothDevice device) async {
@@ -45,7 +45,7 @@ class BleController extends GetxController {
     });
   }
 
-  Future <void> sendData(BluetoothDevice device, String message) async {
+  Future<void> sendData(BluetoothDevice device, String message) async {
     List<BluetoothService> services = await device.discoverServices();
 
     for (BluetoothService service in services) {

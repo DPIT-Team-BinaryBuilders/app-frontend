@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
@@ -76,6 +77,17 @@ class _BleScannerState extends State<BleScanner> {
                               trailing: Text(data.rssi.toString()),
                               onTap: () {
                                 controller.connectToDevice(data.device);
+                                final BleController bleController =
+                                    Get.put(BleController());
+                                if (bleController.connectionState ==
+                                    BluetoothConnectionState.connected) {
+                                  AwesomeNotifications().createNotification(
+                                      content: NotificationContent(
+                                          id: 11,
+                                          channelKey: 'basic_channel',
+                                          title: 'Device connected',
+                                          body: 'Successfully'));
+                                }
                               },
                             ),
                           );

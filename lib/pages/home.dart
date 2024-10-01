@@ -52,7 +52,7 @@ class _HomeState extends State<Home> {
     if (!stopTimer) {
       _timer = Timer.periodic(const Duration(seconds: 15), (timer) {
         _loadDangers(); //refreshes dangers on map
-        checkLocationStatus(getUserLocation());
+        checkLocationStatus();
       });
     }
   }
@@ -210,7 +210,6 @@ class _HomeState extends State<Home> {
           //   sendNotification();
           // },
           onPressed: () {
-            sendNotification();
             userService.centerOnLocation(_mapController);
           },
           child: Icon(Icons.my_location),
